@@ -6,6 +6,7 @@ from torchvision import transforms
 from datetime import datetime
 from torch.utils.tensorboard import SummaryWriter
 
+import Vars as Vars
 from NOACnn import NOACnn
 
 def timestamp():
@@ -17,14 +18,13 @@ torch.manual_seed(101)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f"Device: {device}")
 
-images_dir = '/home/yun/Documents/code/static/noa/train'
 train_ratio = 0.7
 image_size = 300
 batch_size = 40
 learning_rate= 0.001
 num_epochs = 50
 
-assert os.path.isdir(images_dir), f"Training data folder not found: {images_dir}"
+assert os.path.isdir(Vars.IMAGES_TRAIN_DIR), f"Training data folder not found: {Vars.IMAGES_TRAIN_DIR}"
 
 train_transforms=transforms.Compose([
     transforms.RandomVerticalFlip(p=0.5),
@@ -34,7 +34,7 @@ train_transforms=transforms.Compose([
     transforms.ToTensor()
     ])
 
-dataset = torchvision.datasets.ImageFolder(root=images_dir, 
+dataset = torchvision.datasets.ImageFolder(root=Vars.IMAGES_TRAIN_DIR, 
                                            transform=train_transforms)
 
 num_train = int(len(dataset) * train_ratio)
@@ -146,9 +146,8 @@ def train():
     print(f"Training result: \n\tdevice={device}, \n\tepochs={num_epochs}, \n\tloss={prev_loss}")
 
 def save():
-    model_out_dir = 'models'
-    os.makedirs(model_out_dir, exist_ok=True)
-    model_path = f"{model_out_dir}/{type(model).__name__}_{model_name_suffix}.pt"
+    os.makedirs(Vars.MODEL_OUT_DIR, exist_ok=True)
+    model_path = f"{Vars.MODEL_OUT_DIR}/{type(model).__name__}_{model_name_suffix}.pt"
     torch.save(model.state_dict(), model_path)
     print(f"Saved model: {model_path}")
 
