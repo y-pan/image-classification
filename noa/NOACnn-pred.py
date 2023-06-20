@@ -109,9 +109,13 @@ if __name__ == '__main__':
     modelPath = f"{Vars.MODEL_OUT_DIR}/NOACnn_20230617_112834_epochs50.pt"
     model.load_state_dict(torch.load(modelPath, map_location=device))
 
+    # testAllUnderFolder(
+    #     model,
+    #     "/home/yun/Documents/code/static/noa/random/noa_yes", expectingClassName="noa_yes")
+    
     testAllUnderFolder(
         model,
-        "/home/yun/Documents/code/static/noa/random/noa_yes", expectingClassName="noa_yes")
+        "/home/yun/Documents/code/static/t4/train/not_t4", expectingClassName="noa_no")
 
 '''
 classes: ['noa_no', 'noa_yes']
