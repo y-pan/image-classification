@@ -152,3 +152,13 @@ def save():
 # start
 train()
 save()
+
+"""
+End time: 2023-06-20 00:49:00.745865. Took seconds: 879.547475
+Training result: 
+        device=cuda, 
+        epochs=500, 
+        loss=1.3815774764225353e-05
+Saved model: models/NoaT4MultiCnn_20230620_003421_epochs500.pt
+
+"""

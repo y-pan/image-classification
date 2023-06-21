@@ -5,114 +5,83 @@ import torchvision
 from torch import nn
 from PIL import Image
 
-from T4Cnn import T4Cnn
-
+from NoaT4MultiCnn import NoaT4MultiCnn
+import Vars
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-train_images_dir = "data/train"
-classes = torchvision.datasets.ImageFolder(root=train_images_dir).classes
+classes = torchvision.datasets.ImageFolder(root=Vars.IMAGES_TRAIN_DIR).classes
 print(f"classes: {classes}")
 
+assert Vars.NUM_CLASSES == len(classes)
 
 
-# test
-def predictOne(imgPath, expectingClassName=None):
-    imgPIL = loadAndResizeImgGrayScale(
-        imgPath, sizeTupleOfWidthHeight=(300, 300), paddingColor=255)
-    imgTensor = torchvision.transforms.functional.to_tensor(
-        imgPIL).unsqueeze(0)
+def image_load_resize_grayscale(img_path_src, 
+                                height = Vars.IMAGE_HEIGHT,
+                                width = Vars.IMAGE_WIDTH,
+                                padcolor=Vars.RESIZE_FILL_COLOR):
+    imgSrc = Image.open(img_path_src).convert('L')
+    imgSrc.thumbnail((width, height), Image.LANCZOS) # Image.Resampling.LANCZOS
 
-    # print(f"test image tensor shape: {imgTensor.shape}")
-    assert imgTensor.shape == torch.Size([1, 1, 300, 300])
-
-    with torch.no_grad():
-        model.eval()
-        pred = model(imgTensor)
-        predClass = int(torch.sigmoid(pred) > 0.5)
-        predClassName = classes[predClass]
-        print(f"pred: {pred.data}")
-        print(f"predClass: {predClass}")
-        print(f"predClassName: {predClassName}")
-        if expectingClassName:
-            print(f"expectingClassName: {expectingClassName}")
-            print(f"=== OK? {expectingClassName == predClassName}")
-        return predClass
+    w, h = imgSrc.size   # new size like (300, 234), and we want (300, 300), then paste it onto (300, 300) white canvas
+    wdif = width - w
+    hdif = height - h
+    white_canvas = Image.new("L", (width, height), padcolor)
+    white_canvas.paste(imgSrc, (wdif//2, hdif//2))
+    return white_canvas
 
 
-def loadAndResizeImgGrayScale(imgSrcPath, sizeTupleOfWidthHeight=(300, 300), paddingColor=255):
-    '''
-    Fit the specified weight/height, padded. 
-    paddingColor: 0 -> 255
-    Output: image data resized
-    '''
+def image_predict(model, img_path):
+    img_pil = image_load_resize_grayscale(
+        img_path, 
+        height = Vars.IMAGE_HEIGHT,
+        width = Vars.IMAGE_WIDTH,
+        padcolor=Vars.RESIZE_FILL_COLOR)
+    
+    img_tensor = torchvision.transforms.functional.to_tensor(
+        img_pil).reshape((1, Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH))
 
-    imgSrc = Image.open(imgSrcPath).convert('L')
-    # print(imgSrc.size) # original size (1498, 966)
-    # imgSrc.thumbnail(sizeTupleOfWidthHeight, Image.Resampling.LANCZOS) # worked on Mac, but not Unbutu somehow
-    # worked on ubuntu, not tested on Mac
-    imgSrc.thumbnail(sizeTupleOfWidthHeight, Image.LANCZOS)
-
-    # print(imgSrc.size) # new size (500, 322)
-    w, h = imgSrc.size
-    w_out, h_out = sizeTupleOfWidthHeight
-    wdif = w_out - w
-    hdif = h_out - h
-    newImg = Image.new("L", (w_out, h_out), paddingColor)
-    newImg.paste(imgSrc, (wdif//2, hdif//2))
-    return newImg
-
-
-def testOne(model, imgPath, expectingClassName):
-    # imgPath="data/t4-classification/test/t4/Screenshot 2023-05-30 at 00.13.40__0-100.png"
-    imgPIL = loadAndResizeImgGrayScale(
-        imgPath, sizeTupleOfWidthHeight=(300, 300), paddingColor=255)
-    imgTensor = torchvision.transforms.functional.to_tensor(
-        imgPIL).unsqueeze(0)
-
-    # print(f"test image tensor shape: {imgTensor.shape}")
-    assert imgTensor.shape == torch.Size([1, 1, 300, 300])
+    # dim0 is batch size, which is 1 in this case
+    assert img_tensor.size()[1:] == torch.Size([Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH])
 
     with torch.no_grad():
         model.eval()
-        pred = model(imgTensor)
-        predClass = int(torch.sigmoid(pred) > 0.5)
-        predClassName = classes[predClass]
-        # print(f"pred: {pred.data}")
-        # print(f"predClass: {predClass}")
-        # print(f"predClassName: {predClassName}")
-        return predClassName, expectingClassName == predClassName
+        pred_logits = model(img_tensor)
+        # dim0 is batch size, which is 1 in this case
+        assert pred_logits.size()[1:] == torch.Size([Vars.NUM_CLASSES])
+        value, index = torch.max(pred_logits, 1)
+        assert value.size() == index.size() == torch.Size([1])
+        return index[0], classes[index[0]]
 
-
-
-def testAllUnderFolder(model, srcDir, expectingClassName):
-    correctCount, incorrectCount = 0, 0
-    incurrectImages = []
-    for curPath, _folder, files in os.walk(srcDir):
+def image_folder_predict_expected(model, dir_src, expected_classname_for_all):
+    corrects, incorrects = 0, 0
+    images_incorrect = []
+    for curpath, _folder, files in os.walk(dir_src):
         for f in files:
-            imgFullPath = os.path.join(curPath, f)
-            pred, is_correct = testOne(model, imgFullPath, expectingClassName)
-            if is_correct:
-                correctCount += 1
+            fullpath = os.path.join(curpath, f)
+            pred_index, pred_name = image_predict(model, fullpath)
+            if expected_classname_for_all == pred_name:
+                corrects += 1
             else:
-                incorrectCount += 1
-                incurrectImages.append(imgFullPath)
+                incorrects += 1
+                images_incorrect.append(fullpath)
     print("")
-    print(f"srcDir: {srcDir}")
-    print(f"expectingClassName: {expectingClassName}")
-    print(f"accuracy: {correctCount}/{correctCount+incorrectCount}")
+    print(f"srcDir: {dir_src}")
+    print(f"expectingClassName: {expected_classname_for_all}")
+    print(f"accuracy: {corrects}/{corrects+incorrects}")
     print(f"incorrect predictions:")
-    pprint.pprint(incurrectImages)
+    pprint.pprint(images_incorrect)
 
 
 if __name__ == '__main__':
-    model = T4Cnn()
-    modelPath = "models/T4Cnn_20230613_235806_epochs120.pt"
+    model = NoaT4MultiCnn()
+    modelPath = "models/NoaT4MultiCnn_20230620_003421_epochs500.pt"
     model.load_state_dict(torch.load(modelPath, map_location=device))
 
-    testAllUnderFolder(
+    image_folder_predict_expected(
         model,
-        "data/pred-random-size/t4", expectingClassName="t4")
-    testAllUnderFolder(
+        "/home/yun/Documents/code/static/noa-t4-multi/train/t4", expected_classname_for_all="t4")
+
+    image_folder_predict_expected(
         model,
-        "data/pred-random-size/not_t4", expectingClassName="not_t4")
+        "/home/yun/Documents/code/static/noa-t4-multi/train/noa", expected_classname_for_all="noa")
