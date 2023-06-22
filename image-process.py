@@ -144,7 +144,10 @@ if __name__ == '__main__':
     out_dir, ts = dir_path_like(src_dir="test-data", tag='Resize')
     assert f"test-data_Resize_{ts}" == out_dir
 
+    # Optional: rename if needed
     dir_renamed = files_copy_rename(src_dir="/home/yun/Documents/code/static/data/origin/noa_yes", prefix="NOA")
     print(f"renamed to dest_dir: {dir_renamed}") ## ./test-images_Renamed_20230617_082714
+
+    # Main logic: copy/resize images of the folder
     images_copy_resize(src_dir=dir_renamed, width=300, height=300)
     

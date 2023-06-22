@@ -1,0 +1,61 @@
+Time: 2023-06-21 21:56:46.336231
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 529
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 334 | 63.14%
+Size of 't4': 195 | 36.86%
+
+Time: 2023-06-21 22:04:08.039062
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 529
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 334 | 63.14%
+Size of 't4': 195 | 36.86%
+
+Time: 2023-06-21 22:04:21.104381
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 529
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 334 | 63.14%
+Size of 't4': 195 | 36.86%
+
+
+=== Train Split ===
+Train datapoints: 370
+class name noa has 227
+class name t4 has 143
+
+=== Eval Split ===
+class name noa has 227
+class name t4 has 143
+Model: NoaT4MultiCnn(
+  (conv1): Sequential(
+    (0): Conv2d(1, 8, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=4624, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=2, bias=True)
+  )
+)
+Train start: 2023-06-21 22:04:22.365791
+Train end: 2023-06-21 22:05:42.790872. Took seconds: 80.425081
+Training result: epochs=50, loss=0.0002921610721386969
+Saved model: models/NoaT4MultiCnn_20230621_220422_epochs50.pt

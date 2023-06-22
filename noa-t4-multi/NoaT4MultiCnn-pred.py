@@ -76,6 +76,7 @@ def image_folder_predict_expected(model, dir_src, expected_classname_for_all):
 if __name__ == '__main__':
     model = NoaT4MultiCnn()
     modelPath = "models/NoaT4MultiCnn_20230620_003421_epochs500.pt"
+    # modelPath = "models/NoaT4MultiCnn_20230621_220422_epochs50.pt"
     model.load_state_dict(torch.load(modelPath, map_location=device))
 
     image_folder_predict_expected(
