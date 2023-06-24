@@ -20,9 +20,11 @@ note = Note("__note_train.txt")
 torch.manual_seed(Vars.RANDOM_SEED)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+note.addline("########## ########## ##########")
 note.addtimeline_()
 note.addline_(f"Random seed: {Vars.RANDOM_SEED}")
 note.addline_(f"Device: {device}")
+note.flush()
 
 dataset = load_and_note_imageFolder(root=Vars.IMAGES_TRAIN_DIR, 
                                     transform=transforms.Compose([
@@ -34,7 +36,7 @@ dataset = load_and_note_imageFolder(root=Vars.IMAGES_TRAIN_DIR,
                                     ]),
                                     note=note)
 
-assert Vars.NUM_CLASSES == len(dataset.classes)
+assert Vars.NUM_CLASSES == len(dataset.classes), f"Expecting {Vars.NUM_CLASSES} class types, but actual {len(dataset.classes)}"
 
 dataset_train, dataset_eval = split_and_note_dataset(dataset, 
                                                     train_eval_split=Vars.TRAIN_EVAL_SPLIT,
@@ -52,10 +54,11 @@ loader_eval = torch.utils.data.DataLoader(dataset_eval,
 
 # model
 ts = timestamp()
-model_name_suffix = f"{ts}_epochs{Vars.TRAIN_NUM_EPOCHS}"
-model_name = f"{Vars.MODEL_NAME_PREFIX}_{model_name_suffix}"
+model_name = f"{Vars.MODEL_NAME_PREFIX}_C{Vars.NUM_CLASSES}_E{Vars.TRAIN_NUM_EPOCHS}_{ts}"
 model = NoaT4MultiCnn()
+note.addline_(f"Model name: {model_name}")
 note.addline_(f"Model: {model}")
+note.flush()
 
 writer = SummaryWriter(f"runs/{Vars.MODEL_NAME_PREFIX}")
 
@@ -79,7 +82,9 @@ def eval():
 
 def train():
     start_time = datetime.now()
+    note.addline_(f"Train epochs would be: {Vars.TRAIN_NUM_EPOCHS}")
     note.addline_(f"Train start: {start_time}")
+    note.flush()
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=Vars.TRAIN_LEARNING_RATE, betas=(0.9, 0.999))
@@ -95,21 +100,23 @@ def train():
 
             pred_logits = model(X) 
             # Mostly: assert pred_logits.size() == torch.Size([Vars.TRAIN_BATCH_SIZE, Vars.NUM_CLASSES])
-            loss = criterion(pred_logits, y)
+            batch_loss = criterion(pred_logits, y)
+            loss_per_epoch += batch_loss.item()
             
             optimizer.zero_grad()
-            loss.backward()
+            batch_loss.backward()
             optimizer.step()
 
-            prev_loss = loss.item()
-            loss_per_epoch += loss.item()
+            
+        prev_loss = loss_per_epoch
+        accuracy = eval()
 
-            if epoch_i % 100 == 0:
-                print(f"Epoch {epoch_i}, batch #{batch_i}, loss={loss.item()}")
+        if epoch_i % 10 == 0:
+            note.addline_(f"Epoch {epoch_i}, loss={loss_per_epoch}, accuracy={accuracy}").flush()
 
         writer.add_scalars(model_name, {
             'loss': loss_per_epoch,
-            'accuracy': eval()
+            'accuracy': accuracy
         }, epoch_i)
 
     end_time = datetime.now()
@@ -125,16 +132,7 @@ def save():
     note.flush()
 
 
-# start
 train()
 save()
-
-"""
-End time: 2023-06-20 00:49:00.745865. Took seconds: 879.547475
-Training result: 
-        device=cuda, 
-        epochs=500, 
-        loss=1.3815774764225353e-05
-Saved model: models/NoaT4MultiCnn_20230620_003421_epochs500.pt
-
-"""
+note.flush()
+print("Done!")

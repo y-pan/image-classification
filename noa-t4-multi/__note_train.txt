@@ -1,42 +1,32 @@
-Time: 2023-06-21 21:56:46.336231
+########## ########## ##########
+Time: 2023-06-24 15:23:14.023611
 Random seed: 101
 Device: cuda
 Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
-Total size: 529
-Classes: ['noa', 't4']
-Number of classes: 2
-Size of 'noa': 334 | 63.14%
-Size of 't4': 195 | 36.86%
-
-Time: 2023-06-21 22:04:08.039062
-Random seed: 101
-Device: cuda
-Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
-Total size: 529
-Classes: ['noa', 't4']
-Number of classes: 2
-Size of 'noa': 334 | 63.14%
-Size of 't4': 195 | 36.86%
-
-Time: 2023-06-21 22:04:21.104381
-Random seed: 101
-Device: cuda
-Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
-Total size: 529
-Classes: ['noa', 't4']
-Number of classes: 2
-Size of 'noa': 334 | 63.14%
-Size of 't4': 195 | 36.86%
-
-
+Total size: 3847
+Classes: ['bank_statement', 'closing_statement', 'noa', 'paystub', 't4']
+Number of classes: 5
+Size of 'bank_statement': 990 | 25.73%
+Size of 'closing_statement': 514 | 13.36%
+Size of 'noa': 504 | 13.10%
+Size of 'paystub': 1202 | 31.25%
+Size of 't4': 637 | 16.56%
+Train-eval split factor: 0.7
+Train datapoints: 2692
+Eval datapoints: 1155
 === Train Split ===
-Train datapoints: 370
-class name noa has 227
-class name t4 has 143
-
+Size of 'bank_statement': 684 | 25.41%
+Size of 'closing_statement': 371 | 13.78%
+Size of 'noa': 359 | 13.34%
+Size of 'paystub': 832 | 30.91%
+Size of 't4': 446 | 16.57%
 === Eval Split ===
-class name noa has 227
-class name t4 has 143
+Size of 'bank_statement': 306 | 26.49%
+Size of 'closing_statement': 143 | 12.38%
+Size of 'noa': 145 | 12.55%
+Size of 'paystub': 370 | 32.03%
+Size of 't4': 191 | 16.54%
+Model name: NoaT4MultiCnn_C5_E50_20230624_152322
 Model: NoaT4MultiCnn(
   (conv1): Sequential(
     (0): Conv2d(1, 8, kernel_size=(5, 5), stride=(1, 1))
@@ -52,10 +42,16 @@ Model: NoaT4MultiCnn(
     (0): Flatten(start_dim=1, end_dim=-1)
     (1): Linear(in_features=4624, out_features=1156, bias=True)
     (2): ReLU()
-    (3): Linear(in_features=1156, out_features=2, bias=True)
+    (3): Linear(in_features=1156, out_features=5, bias=True)
   )
 )
-Train start: 2023-06-21 22:04:22.365791
-Train end: 2023-06-21 22:05:42.790872. Took seconds: 80.425081
-Training result: epochs=50, loss=0.0002921610721386969
-Saved model: models/NoaT4MultiCnn_20230621_220422_epochs50.pt
+Train epochs would be: 50
+Train start: 2023-06-24 15:23:22.148582
+Epoch 0, loss=80.75361943244934, accuracy=0.45021645021645024
+Epoch 10, loss=16.452393040060997, accuracy=0.8701298701298701
+Epoch 20, loss=5.214576014317572, accuracy=0.935064935064935
+Epoch 30, loss=3.5213222990278155, accuracy=0.9471861471861471
+Epoch 40, loss=0.7297481673303992, accuracy=0.9748917748917749
+Train end: 2023-06-24 15:32:26.043356. Took seconds: 543.894774
+Training result: epochs=50, loss=0.9726365309907123
+Saved model: models/NoaT4MultiCnn_C5_E50_20230624_152322.pt
