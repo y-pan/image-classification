@@ -3,11 +3,12 @@ import shutil
 from PIL import Image
 
 def images_copy_resize(src_dir, 
+                       dest_dir=None,
                        width=500, 
                        height=500, 
                        padcolor=255):
-    
-    dest_dir, ts = dir_path_like(src_dir, tag='RESIZED')
+    if not dest_dir:
+        dest_dir, ts = dir_path_like(src_dir, tag='RESIZED')
     os.makedirs(dest_dir)
 
     print(f"Copy & resized images: src_dir={src_dir}, destDir={dest_dir}")
@@ -133,8 +134,17 @@ def get_filename_ext(file_path):
 
 def abspath(path_from_current):
   return os.path.join(os.path.dirname(__file__), path_from_current)  
-  
-if __name__ == '__main__':
+
+def rename_folder_backup_if_exist(path_may_exist):
+    if not os.path.exists(path_may_exist):
+        print(f"Nothing happens, path is not occupied: {path_may_exist}")
+        return False
+    path_new = f"{path_may_exist}_backup{timestamp()}"
+    os.rename(path_may_exist, path_new)
+    print(f"Backed up path: old path={path_may_exist}, renamed={path_new}")
+    return True
+
+def test():
     out_dir, ts = dir_path_like(src_dir="/home/yun/Documents/code/ml/image-process/test-data", tag='Resize')
     assert f"/home/yun/Documents/code/ml/image-process/test-data_Resize_{ts}" == out_dir
 
@@ -144,10 +154,41 @@ if __name__ == '__main__':
     out_dir, ts = dir_path_like(src_dir="test-data", tag='Resize')
     assert f"test-data_Resize_{ts}" == out_dir
 
-    # Optional: rename if needed
-    dir_renamed = files_copy_rename(src_dir="/home/yun/Documents/code/static/data/origin/noa_yes", prefix="NOA")
-    print(f"renamed to dest_dir: {dir_renamed}") ## ./test-images_Renamed_20230617_082714
+if __name__ == '__main__':
+    test()
 
-    # Main logic: copy/resize images of the folder
-    images_copy_resize(src_dir=dir_renamed, width=300, height=300)
+    # # Optional: rename if needed
+    # dir_renamed = files_copy_rename(src_dir="/home/yun/Documents/code/static/data/origin/noa_yes", prefix="NOA")
+    # print(f"renamed to dest_dir: {dir_renamed}") ## ./test-images_Renamed_20230617_082714
+
+    # # Main logic: copy/resize images of the folder
+
+    # t4
+    # src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4"
+    # dest_dir = "/home/yun/Documents/code/static/noa-t4-multi/train/t4"
+    # rename_folder_backup_if_exist(dest_dir)
+    # images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)
     
+    # noa
+    # src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa"
+    # dest_dir = "/home/yun/Documents/code/static/noa-t4-multi/train/noa"
+    # rename_folder_backup_if_exist(dest_dir)
+    # images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)
+
+    # raw_paystub
+    src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_paystub"
+    dest_dir = "/home/yun/Documents/code/static/noa-t4-multi/train/paystub"
+    rename_folder_backup_if_exist(dest_dir)
+    images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)
+
+    # raw_closing_statement
+    src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_closing_statement"
+    dest_dir = "/home/yun/Documents/code/static/noa-t4-multi/train/closing_statement"
+    rename_folder_backup_if_exist(dest_dir)
+    images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)
+
+    # raw_bank_statement
+    src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_bank_statement"
+    dest_dir = "/home/yun/Documents/code/static/noa-t4-multi/train/bank_statement"
+    rename_folder_backup_if_exist(dest_dir)
+    images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)

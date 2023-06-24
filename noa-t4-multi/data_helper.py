@@ -48,7 +48,7 @@ def split_and_note_dataset(dataset, train_eval_split=0.7, note=Note()):
         count_per_class_train[label_index] += 1
 
     for i in range(len(dataset.classes)):
-        note.addline_(f"class name {dataset.classes[i]} has {count_per_class_train[i]}")
+        note.addline_(f"class name '{dataset.classes[i]}' has {count_per_class_train[i]}")
 
     note.addline_("\n=== Eval Split ===")
     count_per_class_eval = [0] * len(dataset.classes)
@@ -57,7 +57,7 @@ def split_and_note_dataset(dataset, train_eval_split=0.7, note=Note()):
         count_per_class_eval[label_index] += 1
 
     for i in range(len(dataset.classes)):
-        note.addline_(f"class name {dataset.classes[i]} has {count_per_class_train[i]}")
+        note.addline_(f"class name '{dataset.classes[i]}' has {count_per_class_train[i]}")
 
     return train_ds, eval_ds
 
