@@ -64,19 +64,21 @@ def image_folder_predict_expected(model, dir_src, expected_classname_for_all):
                 corrects += 1
             else:
                 incorrects += 1
-                images_incorrect.append(fullpath)
+                images_incorrect.append({"file": fullpath, "prediction": pred_name, "truth": expected_classname_for_all})
     print("")
     print(f"srcDir: {dir_src}")
     print(f"expectingClassName: {expected_classname_for_all}")
-    print(f"accuracy: {corrects}/{corrects+incorrects}")
+    accuracy = corrects / (corrects+incorrects)
+    print(f"accuracy: {accuracy:.2f} ({corrects} out of {corrects+incorrects})")
     print(f"incorrect predictions:")
     pprint.pprint(images_incorrect)
 
 
 if __name__ == '__main__':
     model = NoaT4MultiCnn()
-    modelPath = "models/NoaT4MultiCnn_20230620_003421_epochs500.pt"
+    # modelPath = "models/NoaT4MultiCnn_20230620_003421_epochs500.pt"
     # modelPath = "models/NoaT4MultiCnn_20230621_220422_epochs50.pt"
+    modelPath = "models/NoaT4MultiCnn_C5_E50_20230624_152322.pt"
     model.load_state_dict(torch.load(modelPath, map_location=device))
 
     image_folder_predict_expected(
