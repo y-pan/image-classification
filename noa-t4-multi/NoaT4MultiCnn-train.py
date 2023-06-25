@@ -89,6 +89,7 @@ def train():
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=Vars.TRAIN_LEARNING_RATE, betas=(0.9, 0.999))
     prev_loss = None
+    prev_accuracy = None
 
     for epoch_i in range(Vars.TRAIN_NUM_EPOCHS):
         loss_per_epoch = 0.0
@@ -109,10 +110,10 @@ def train():
 
             
         prev_loss = loss_per_epoch
-        accuracy = eval()
+        prev_accuracy = accuracy = eval()
 
         if epoch_i % 10 == 0:
-            note.addline_(f"Epoch {epoch_i}, loss={loss_per_epoch}, accuracy={accuracy}").flush()
+            note.addline_(f"Epoch {epoch_i}, loss={loss_per_epoch:.2f}, accuracy={accuracy:.2f}").flush()
 
         writer.add_scalars(model_name, {
             'loss': loss_per_epoch,
@@ -121,7 +122,7 @@ def train():
 
     end_time = datetime.now()
     note.addline_(f"Train end: {end_time}. Took seconds: {(end_time-start_time).total_seconds()}")
-    note.addline_(f"Training result: epochs={Vars.TRAIN_NUM_EPOCHS}, loss={prev_loss}")
+    note.addline_(f"Training result: epochs={Vars.TRAIN_NUM_EPOCHS}, loss={prev_loss:.2f}, accuracy={prev_accuracy:.2f}")
     note.flush()
 
 def save():

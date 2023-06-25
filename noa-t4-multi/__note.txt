@@ -1,0 +1,24 @@
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 3845
+Classes: ['bank_statement', 'closing_statement', 'noa', 'paystub', 't4']
+Number of classes: 5
+Size of 'bank_statement': 990 | 25.75%
+Size of 'closing_statement': 514 | 13.37%
+Size of 'noa': 504 | 13.11%
+Size of 'paystub': 1202 | 31.26%
+Size of 't4': 635 | 16.51%
+Train-eval split factor: 0.7
+Train datapoints: 2691
+Eval datapoints: 1154
+=== Train Split ===
+Size of 'bank_statement': 696 | 25.86%
+Size of 'closing_statement': 364 | 13.53%
+Size of 'noa': 352 | 13.08%
+Size of 'paystub': 829 | 30.81%
+Size of 't4': 450 | 16.72%
+=== Eval Split ===
+Size of 'bank_statement': 294 | 25.48%
+Size of 'closing_statement': 150 | 13.00%
+Size of 'noa': 152 | 13.17%
+Size of 'paystub': 373 | 32.32%
+Size of 't4': 185 | 16.03%

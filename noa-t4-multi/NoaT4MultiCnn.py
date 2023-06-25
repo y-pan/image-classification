@@ -33,7 +33,15 @@ class NoaT4MultiCnn(nn.Module):
         x = self.conv2(x)
         x = self.fc(x)
         return x
+
+def __test_dim():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    X = torch.randn((8, Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH), dtype=torch.float, device=device)
+    # model = NoaT4MultiCnn()
+    # model.
     
+    layer1 = nn.Conv2d(in_channels=1, out_channels=8, kernel_size=(5,5))
+        
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     X = torch.randn((8, Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH), dtype=torch.float, device=device)
