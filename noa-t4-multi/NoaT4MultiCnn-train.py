@@ -135,4 +135,5 @@ def save():
 train()
 save()
 note.flush()
+note.describe()
 print("Done!")
