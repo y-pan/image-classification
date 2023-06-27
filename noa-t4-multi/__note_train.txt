@@ -55,3 +55,112 @@ Epoch 40, loss=0.7297481673303992, accuracy=0.9748917748917749
 Train end: 2023-06-24 15:32:26.043356. Took seconds: 543.894774
 Training result: epochs=50, loss=0.9726365309907123
 Saved model: models/NoaT4MultiCnn_C5_E50_20230624_152322.pt
+########## ########## ##########
+Time: 2023-06-26 11:14:00.999587
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 3907
+Classes: ['bank_statement', 'closing_statement', 'noa', 'paystub', 't4']
+Number of classes: 5
+Size of 'bank_statement': 990 | 25.34%
+Size of 'closing_statement': 514 | 13.16%
+Size of 'noa': 534 | 13.67%
+Size of 'paystub': 1202 | 30.77%
+Size of 't4': 667 | 17.07%
+Train-eval split factor: 0.7
+Train datapoints: 2734
+Eval datapoints: 1173
+=== Train Split ===
+Size of 'bank_statement': 695 | 25.42%
+Size of 'closing_statement': 364 | 13.31%
+Size of 'noa': 388 | 14.19%
+Size of 'paystub': 831 | 30.40%
+Size of 't4': 456 | 16.68%
+=== Eval Split ===
+Size of 'bank_statement': 295 | 25.15%
+Size of 'closing_statement': 150 | 12.79%
+Size of 'noa': 146 | 12.45%
+Size of 'paystub': 371 | 31.63%
+Size of 't4': 211 | 17.99%
+Model name: NoaT4MultiCnn_C5_E50_20230626_111408
+Model: NoaT4MultiCnn(
+  (conv1): Sequential(
+    (0): Conv2d(1, 8, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=4624, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=5, bias=True)
+  )
+)
+Train epochs would be: 50
+Train start: 2023-06-26 11:14:08.919328
+Epoch 0, loss=89.43, accuracy=0.32
+Epoch 10, loss=52.92, accuracy=0.63
+Epoch 20, loss=28.90, accuracy=0.78
+########## ########## ##########
+Time: 2023-06-26 11:23:08.988558
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 3927
+Classes: ['bank_statement', 'closing_statement', 'noa', 'paystub', 't4']
+Number of classes: 5
+Size of 'bank_statement': 990 | 25.21%
+Size of 'closing_statement': 514 | 13.09%
+Size of 'noa': 554 | 14.11%
+Size of 'paystub': 1202 | 30.61%
+Size of 't4': 667 | 16.98%
+Train-eval split factor: 0.7
+Train datapoints: 2748
+Eval datapoints: 1179
+=== Train Split ===
+Size of 'bank_statement': 675 | 24.56%
+Size of 'closing_statement': 363 | 13.21%
+Size of 'noa': 407 | 14.81%
+Size of 'paystub': 831 | 30.24%
+Size of 't4': 472 | 17.18%
+=== Eval Split ===
+Size of 'bank_statement': 315 | 26.72%
+Size of 'closing_statement': 151 | 12.81%
+Size of 'noa': 147 | 12.47%
+Size of 'paystub': 371 | 31.47%
+Size of 't4': 195 | 16.54%
+Model name: NoaT4MultiCnn_C5_E50_20230626_112316
+Model: NoaT4MultiCnn(
+  (conv1): Sequential(
+    (0): Conv2d(1, 8, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=4624, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=5, bias=True)
+  )
+)
+Train epochs would be: 50
+Train start: 2023-06-26 11:23:16.852615
+Epoch 0, loss=87.80, accuracy=0.31
+Epoch 10, loss=24.73, accuracy=0.82
+Epoch 20, loss=7.34, accuracy=0.92
+Epoch 30, loss=4.11, accuracy=0.96
+Epoch 40, loss=1.98, accuracy=0.96
+Train end: 2023-06-26 11:39:30.025847. Took seconds: 973.173232
+Training result: epochs=50, loss=1.28, accuracy=0.97
+Saved model: models/NoaT4MultiCnn_C5_E50_20230626_112316.pt
