@@ -164,3 +164,63 @@ Epoch 40, loss=1.98, accuracy=0.96
 Train end: 2023-06-26 11:39:30.025847. Took seconds: 973.173232
 Training result: epochs=50, loss=1.28, accuracy=0.97
 Saved model: models/NoaT4MultiCnn_C5_E50_20230626_112316.pt
+########## ########## ##########
+Time: 2023-06-26 22:47:23.554773
+Random seed: 101
+Device: cuda
+Image folder: /home/yun/Documents/code/static/noa-t4-multi/train
+Total size: 3937
+Classes: ['bank_statement', 'closing_statement', 'noa', 'paystub', 't4']
+Number of classes: 5
+Size of 'bank_statement': 990 | 25.15%
+Size of 'closing_statement': 514 | 13.06%
+Size of 'noa': 554 | 14.07%
+Size of 'paystub': 1202 | 30.53%
+Size of 't4': 677 | 17.20%
+Train-eval split factor: 0.7
+Train datapoints: 2755
+Eval datapoints: 1182
+=== Train Split ===
+Size of 'bank_statement': 684 | 24.83%
+Size of 'closing_statement': 361 | 13.10%
+Size of 'noa': 394 | 14.30%
+Size of 'paystub': 847 | 30.74%
+Size of 't4': 469 | 17.02%
+=== Eval Split ===
+Size of 'bank_statement': 306 | 25.89%
+Size of 'closing_statement': 153 | 12.94%
+Size of 'noa': 160 | 13.54%
+Size of 'paystub': 355 | 30.03%
+Size of 't4': 208 | 17.60%
+Model name: NoaT4MultiCnn_C5_E80_20230626_224730
+Model: NoaT4MultiCnn(
+  (conv1): Sequential(
+    (0): Conv2d(1, 8, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(8, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=4624, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=5, bias=True)
+  )
+)
+Train epochs would be: 80
+Train start: 2023-06-26 22:47:30.871641
+Epoch 0, loss=88.82, accuracy=0.29
+Epoch 10, loss=24.37, accuracy=0.82
+Epoch 20, loss=8.69, accuracy=0.94
+Epoch 30, loss=3.58, accuracy=0.93
+Epoch 40, loss=1.90, accuracy=0.97
+Epoch 50, loss=1.14, accuracy=0.97
+Epoch 60, loss=2.80, accuracy=0.91
+Epoch 70, loss=0.55, accuracy=0.98
+Train end: 2023-06-26 23:13:13.663955. Took seconds: 1542.792314
+Training result: epochs=80, loss=0.55, accuracy=0.97
+Saved model: models/NoaT4MultiCnn_C5_E80_20230626_224730.pt

@@ -132,7 +132,7 @@ def save():
 
 def on_train_done():
     print("Running on_train_done.sh")
-    os.system('./on_train_done')
+    os.system('./on_train_done.sh')
 
 
 train()

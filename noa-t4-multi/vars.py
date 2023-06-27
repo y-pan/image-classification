@@ -9,7 +9,7 @@ IMAGE_WIDTH = 300
 
 RESIZE_FILL_COLOR = 255 # used in inference, and must be consistent with training image's preprocessing. will cause bad inferencing otherwise.
 
-TRAIN_NUM_EPOCHS = 50
+TRAIN_NUM_EPOCHS = 80
 TRAIN_BATCH_SIZE = 50
 TRAIN_LEARNING_RATE= 0.001
 TRAIN_EVAL_SPLIT = 0.7
