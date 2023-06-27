@@ -188,25 +188,29 @@ if __name__ == '__main__':
     # images_copy_resize(src_dir=src_dir, dest_dir=dest_dir, width=300, height=300)
 
     fr_to_dirs = [
+        # {
+        #     "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
+        #     "to": "/home/yun/Documents/code/static/noa-t4-multi/train/noa"
+        # },
+        # {
+        #     "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4",
+        #     "to": "/home/yun/Documents/code/static/noa-t4-multi/train/t4"
+        # },
+        # {
+        #     "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_bank_statement",
+        #     "to": "/home/yun/Documents/code/static/noa-t4-multi/train/bank_statement"
+        # },
+        # {
+        #     "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_paystub",
+        #     "to": "/home/yun/Documents/code/static/noa-t4-multi/train/paystub"
+        # },
+        # {
+        #     "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_closing_statement",
+        #     "to": "/home/yun/Documents/code/static/noa-t4-multi/train/closing_statement"
+        # },
         {
-            "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
-            "to": "/home/yun/Documents/code/static/noa-t4-multi/train/noa"
-        },
-        {
-            "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4",
-            "to": "/home/yun/Documents/code/static/noa-t4-multi/train/t4"
-        },
-        {
-            "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_bank_statement",
-            "to": "/home/yun/Documents/code/static/noa-t4-multi/train/bank_statement"
-        },
-        {
-            "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_paystub",
-            "to": "/home/yun/Documents/code/static/noa-t4-multi/train/paystub"
-        },
-        {
-            "fr": "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_closing_statement",
-            "to": "/home/yun/Documents/code/static/noa-t4-multi/train/closing_statement"
+            "fr": "/home/yun/Documents/code/static/__ignore__fr",
+            "to": "/home/yun/Documents/code/static/__ignore__to"
         }
 
     ]

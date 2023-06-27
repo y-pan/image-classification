@@ -1,66 +1,64 @@
 import os
 import torch
-import torchvision
 from torch import nn, optim
 from torchvision import transforms
 from datetime import datetime
 from torch.utils.tensorboard import SummaryWriter
 
-import Vars
+import vars
+import util
+from data_util import load_and_note_imageFolder, split_and_note_dataset
+
 from NoaT4MultiCnn import NoaT4MultiCnn
-from data_helper import load_and_note_imageFolder, split_and_note_dataset
 from Note import Note
 
-def timestamp():
-    """like 20230613_001228"""
-    import datetime 
-    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+# globals
 
 note = Note("__note_train.txt")
-torch.manual_seed(Vars.RANDOM_SEED)
+torch.manual_seed(vars.RANDOM_SEED)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 note.addline("########## ########## ##########")
 note.addtimeline_()
-note.addline_(f"Random seed: {Vars.RANDOM_SEED}")
+note.addline_(f"Random seed: {vars.RANDOM_SEED}")
 note.addline_(f"Device: {device}")
 note.flush()
 
-dataset = load_and_note_imageFolder(root=Vars.IMAGES_TRAIN_DIR, 
+dataset = load_and_note_imageFolder(root=vars.IMAGES_TRAIN_DIR, 
                                     transform=transforms.Compose([
                                         transforms.RandomVerticalFlip(p=0.5), 
                                         transforms.RandomRotation(degrees=20),
-                                        transforms.Resize((Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH)),
+                                        transforms.Resize((vars.IMAGE_HEIGHT, vars.IMAGE_WIDTH)),
                                         transforms.Grayscale(),
                                         transforms.ToTensor()
                                     ]),
                                     note=note)
 
-assert Vars.NUM_CLASSES == len(dataset.classes), f"Expecting {Vars.NUM_CLASSES} class types, but actual {len(dataset.classes)}"
+assert vars.NUM_CLASSES == len(dataset.classes), f"Expecting {vars.NUM_CLASSES} class types, but actual {len(dataset.classes)}"
 
 dataset_train, dataset_eval = split_and_note_dataset(dataset, 
-                                                    train_eval_split=Vars.TRAIN_EVAL_SPLIT,
+                                                    train_eval_split=vars.TRAIN_EVAL_SPLIT,
                                                     note=note)
 # batch loader
 loader_train = torch.utils.data.DataLoader(dataset_train,
-                                           batch_size=Vars.TRAIN_BATCH_SIZE,
+                                           batch_size=vars.TRAIN_BATCH_SIZE,
                                            shuffle=True,
                                            drop_last=False)
 
 loader_eval = torch.utils.data.DataLoader(dataset_eval,
-                                          batch_size=Vars.TRAIN_BATCH_SIZE,
+                                          batch_size=vars.TRAIN_BATCH_SIZE,
                                           shuffle=False,
                                           drop_last=False)
 
 # model
-ts = timestamp()
-model_name = f"{Vars.MODEL_NAME_PREFIX}_C{Vars.NUM_CLASSES}_E{Vars.TRAIN_NUM_EPOCHS}_{ts}"
+ts = util.timestamp()
+model_name = f"{vars.MODEL_NAME_PREFIX}_C{vars.NUM_CLASSES}_E{vars.TRAIN_NUM_EPOCHS}_{ts}"
 model = NoaT4MultiCnn()
 note.addline_(f"Model name: {model_name}")
 note.addline_(f"Model: {model}")
 note.flush()
 
-writer = SummaryWriter(f"runs/{Vars.MODEL_NAME_PREFIX}")
+writer = SummaryWriter(f"runs/{vars.MODEL_NAME_PREFIX}")
 
 # functions 
 
@@ -82,16 +80,16 @@ def eval():
 
 def train():
     start_time = datetime.now()
-    note.addline_(f"Train epochs would be: {Vars.TRAIN_NUM_EPOCHS}")
+    note.addline_(f"Train epochs would be: {vars.TRAIN_NUM_EPOCHS}")
     note.addline_(f"Train start: {start_time}")
     note.flush()
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=Vars.TRAIN_LEARNING_RATE, betas=(0.9, 0.999))
+    optimizer = optim.Adam(model.parameters(), lr=vars.TRAIN_LEARNING_RATE, betas=(0.9, 0.999))
     prev_loss = None
     prev_accuracy = None
 
-    for epoch_i in range(Vars.TRAIN_NUM_EPOCHS):
+    for epoch_i in range(vars.TRAIN_NUM_EPOCHS):
         loss_per_epoch = 0.0
 
         for batch_i, (X, y) in enumerate(loader_train):
@@ -100,7 +98,7 @@ def train():
                 model.to(device)
 
             pred_logits = model(X) 
-            # Mostly: assert pred_logits.size() == torch.Size([Vars.TRAIN_BATCH_SIZE, Vars.NUM_CLASSES])
+            # Mostly: assert pred_logits.size() == torch.Size([vars.TRAIN_BATCH_SIZE, vars.NUM_CLASSES])
             batch_loss = criterion(pred_logits, y)
             loss_per_epoch += batch_loss.item()
             
@@ -122,19 +120,24 @@ def train():
 
     end_time = datetime.now()
     note.addline_(f"Train end: {end_time}. Took seconds: {(end_time-start_time).total_seconds()}")
-    note.addline_(f"Training result: epochs={Vars.TRAIN_NUM_EPOCHS}, loss={prev_loss:.2f}, accuracy={prev_accuracy:.2f}")
+    note.addline_(f"Training result: epochs={vars.TRAIN_NUM_EPOCHS}, loss={prev_loss:.2f}, accuracy={prev_accuracy:.2f}")
     note.flush()
 
 def save():
-    os.makedirs(Vars.MODEL_OUT_DIR, exist_ok=True)
-    model_path = f"{Vars.MODEL_OUT_DIR}/{model_name}.pt"
+    os.makedirs(vars.MODEL_OUT_DIR, exist_ok=True)
+    model_path = f"{vars.MODEL_OUT_DIR}/{model_name}.pt"
     torch.save(model.state_dict(), model_path)
     note.addline_(f"Saved model: {model_path}")
     note.flush()
+
+def on_train_done():
+    print("Running on_train_done.sh")
+    os.system('./on_train_done')
 
 
 train()
 save()
 note.flush()
 note.describe()
-print("Done!")
+
+on_train_done()

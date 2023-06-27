@@ -1,12 +1,11 @@
 import torch
 import torchvision
-from datetime import datetime
-import Vars
+import vars
 from Note import Note
 
 
-randomseed = Vars.RANDOM_SEED
-# num_classes_expected = Vars.NUM_CLASSES
+randomseed = vars.RANDOM_SEED
+# num_classes_expected = vars.NUM_CLASSES
 
 torch.manual_seed(randomseed)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -123,7 +122,7 @@ def split_and_note_dataset(dataset, train_eval_split=0.7, note=Note()):
 
 def __test_note():
     note = Note()
-    full_ds = load_and_note_imageFolder(root=Vars.IMAGES_TRAIN_DIR, note=note)
+    full_ds = load_and_note_imageFolder(root=vars.IMAGES_TRAIN_DIR, note=note)
     train_ds, eval_ds = split_and_note_dataset(full_ds, train_eval_split=0.7, note=note)
     note.flush()
 

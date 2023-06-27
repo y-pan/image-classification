@@ -6,20 +6,20 @@ from torch import nn
 from PIL import Image
 
 from NoaT4MultiCnn import NoaT4MultiCnn
-import Vars
+import vars
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-classes = torchvision.datasets.ImageFolder(root=Vars.IMAGES_TRAIN_DIR).classes
+classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
 print(f"classes: {classes}")
 
-assert Vars.NUM_CLASSES == len(classes)
+assert vars.NUM_CLASSES == len(classes)
 
 
 def image_load_resize_grayscale(img_path_src, 
-                                height = Vars.IMAGE_HEIGHT,
-                                width = Vars.IMAGE_WIDTH,
-                                padcolor=Vars.RESIZE_FILL_COLOR):
+                                height = vars.IMAGE_HEIGHT,
+                                width = vars.IMAGE_WIDTH,
+                                padcolor=vars.RESIZE_FILL_COLOR):
     imgSrc = Image.open(img_path_src).convert('L')
     imgSrc.thumbnail((width, height), Image.LANCZOS) # Image.Resampling.LANCZOS
 
@@ -34,21 +34,21 @@ def image_load_resize_grayscale(img_path_src,
 def image_predict(model, img_path):
     img_pil = image_load_resize_grayscale(
         img_path, 
-        height = Vars.IMAGE_HEIGHT,
-        width = Vars.IMAGE_WIDTH,
-        padcolor=Vars.RESIZE_FILL_COLOR)
+        height = vars.IMAGE_HEIGHT,
+        width = vars.IMAGE_WIDTH,
+        padcolor=vars.RESIZE_FILL_COLOR)
     
     img_tensor = torchvision.transforms.functional.to_tensor(
-        img_pil).reshape((1, Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH))
+        img_pil).reshape((1, vars.IMAGE_CHANNELS, vars.IMAGE_HEIGHT, vars.IMAGE_WIDTH))
 
     # dim0 is batch size, which is 1 in this case
-    assert img_tensor.size()[1:] == torch.Size([Vars.IMAGE_CHANNELS, Vars.IMAGE_HEIGHT, Vars.IMAGE_WIDTH])
+    assert img_tensor.size()[1:] == torch.Size([vars.IMAGE_CHANNELS, vars.IMAGE_HEIGHT, vars.IMAGE_WIDTH])
 
     with torch.no_grad():
         model.eval()
         pred_logits = model(img_tensor)
         # dim0 is batch size, which is 1 in this case
-        assert pred_logits.size()[1:] == torch.Size([Vars.NUM_CLASSES])
+        assert pred_logits.size()[1:] == torch.Size([vars.NUM_CLASSES])
         value, index = torch.max(pred_logits, 1)
         assert value.size() == index.size() == torch.Size([1])
         return index[0], classes[index[0]]
