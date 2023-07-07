@@ -1,4 +1,5 @@
 import os
+import shutil
 import torch
 from torch import nn, optim
 from torchvision import transforms
@@ -9,58 +10,8 @@ import vars
 import util
 from data_util import load_and_note_imageFolder, split_and_note_dataset
 
-from NoaT4MultiCnn import NoaT4MultiCnn
+from NoaT4MultiCnn import NoaT4MultiCnn, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
 from Note import Note
-
-# globals
-
-note = Note("__note_train.txt")
-torch.manual_seed(vars.RANDOM_SEED)
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-note.addline("########## ########## ##########")
-note.addtimeline_()
-note.addline_(f"Random seed: {vars.RANDOM_SEED}")
-note.addline_(f"Device: {device}")
-note.flush()
-
-dataset = load_and_note_imageFolder(root=vars.IMAGES_TRAIN_DIR, 
-                                    transform=transforms.Compose([
-                                        transforms.RandomVerticalFlip(p=0.5), 
-                                        transforms.RandomRotation(degrees=20),
-                                        transforms.Resize((vars.IMAGE_HEIGHT, vars.IMAGE_WIDTH)),
-                                        transforms.Grayscale(),
-                                        transforms.ToTensor()
-                                    ]),
-                                    note=note)
-
-assert vars.NUM_CLASSES == len(dataset.classes), f"Expecting {vars.NUM_CLASSES} class types, but actual {len(dataset.classes)}"
-
-dataset_train, dataset_eval = split_and_note_dataset(dataset, 
-                                                    train_eval_split=vars.TRAIN_EVAL_SPLIT,
-                                                    note=note)
-# batch loader
-loader_train = torch.utils.data.DataLoader(dataset_train,
-                                           batch_size=vars.TRAIN_BATCH_SIZE,
-                                           shuffle=True,
-                                           drop_last=False)
-
-loader_eval = torch.utils.data.DataLoader(dataset_eval,
-                                          batch_size=vars.TRAIN_BATCH_SIZE,
-                                          shuffle=False,
-                                          drop_last=False)
-
-# model
-ts = util.timestamp()
-model_name = f"{vars.MODEL_NAME_PREFIX}_C{vars.NUM_CLASSES}_E{vars.TRAIN_NUM_EPOCHS}_{ts}"
-model = NoaT4MultiCnn()
-note.addline_(f"Model name: {model_name}")
-note.addline_(f"Model: {model}")
-note.flush()
-
-writer = SummaryWriter(f"runs/{vars.MODEL_NAME_PREFIX}")
-
-# functions 
 
 def eval():
     model.eval()
@@ -78,7 +29,7 @@ def eval():
     accuracy = num_correct / (len(loader_eval.dataset))
     return accuracy
 
-def train():
+def train(note):
     start_time = datetime.now()
     note.addline_(f"Train epochs would be: {vars.TRAIN_NUM_EPOCHS}")
     note.addline_(f"Train start: {start_time}")
@@ -98,7 +49,7 @@ def train():
                 model.to(device)
 
             pred_logits = model(X) 
-            # Mostly: assert pred_logits.size() == torch.Size([vars.TRAIN_BATCH_SIZE, vars.NUM_CLASSES])
+            # Mostly: assert pred_logits.size() == torch.Size([vars.TRAIN_BATCH_SIZE, NUM_CLASSES])
             batch_loss = criterion(pred_logits, y)
             loss_per_epoch += batch_loss.item()
             
@@ -111,7 +62,8 @@ def train():
         prev_accuracy = accuracy = eval()
 
         if epoch_i % 10 == 0:
-            note.addline_(f"Epoch {epoch_i}, loss={loss_per_epoch:.2f}, accuracy={accuracy:.2f}").flush()
+            note.addline_(f"Epoch {epoch_i}, loss={loss_per_epoch:.2f}, accuracy={accuracy:.2f}")
+            note.flush()
 
         writer.add_scalars(model_name, {
             'loss': loss_per_epoch,
@@ -123,21 +75,78 @@ def train():
     note.addline_(f"Training result: epochs={vars.TRAIN_NUM_EPOCHS}, loss={prev_loss:.2f}, accuracy={prev_accuracy:.2f}")
     note.flush()
 
-def save():
+def save(note):
     os.makedirs(vars.MODEL_OUT_DIR, exist_ok=True)
     model_path = f"{vars.MODEL_OUT_DIR}/{model_name}.pt"
     torch.save(model.state_dict(), model_path)
     note.addline_(f"Saved model: {model_path}")
+
+    model_class_archive = f"{vars.MODEL_OUT_DIR}/{model_name}.py"
+    shutil.copy("NoaT4MultiCnn.py", model_class_archive)
+    note.addline_(f"Archived model class: {model_class_archive}")
+
     note.flush()
+    return model_name, model_path
 
 def on_train_done():
-    print("Running on_train_done.sh")
-    os.system('./on_train_done.sh')
+    if not os.path.exists("on_train_done.sh.off.__ignore__"):
+        script = './on_train_done.sh'
+        print(f"Running {script}")
+        os.system(script)
+    print("Done!")
 
+if __name__ == '__main__':
+    # globals
+    note = Note("__note_train.txt")
+    torch.manual_seed(vars.RANDOM_SEED)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-train()
-save()
-note.flush()
-note.describe()
+    note.addline("########## ########## ##########")
+    note.addtimeline_()
+    note.addline_(f"Random seed: {vars.RANDOM_SEED}")
+    note.addline_(f"Device: {device}")
+    note.flush()
 
-on_train_done()
+    dataset = load_and_note_imageFolder(root=vars.IMAGES_TRAIN_DIR, 
+                                        transform=transforms.Compose([
+                                            transforms.RandomVerticalFlip(p=0.5), 
+                                            transforms.RandomRotation(degrees=20),
+                                            transforms.Resize((IMAGE_HEIGHT, IMAGE_WIDTH)),
+                                            transforms.Grayscale(),
+                                            transforms.ToTensor()
+                                        ]),
+                                        note=note)
+
+    assert NUM_CLASSES == len(dataset.classes), f"Expecting {NUM_CLASSES} class types, but actual {len(dataset.classes)}"
+
+    dataset_train, dataset_eval = split_and_note_dataset(dataset, 
+                                                        train_eval_split=vars.TRAIN_EVAL_SPLIT,
+                                                        note=note)
+    # batch loader
+    loader_train = torch.utils.data.DataLoader(dataset_train,
+                                            batch_size=vars.TRAIN_BATCH_SIZE,
+                                            shuffle=True,
+                                            drop_last=False)
+
+    loader_eval = torch.utils.data.DataLoader(dataset_eval,
+                                            batch_size=vars.TRAIN_BATCH_SIZE,
+                                            shuffle=False,
+                                            drop_last=False)
+
+    # model
+    ts = util.timestamp()
+    model_name = f"{vars.MODEL_NAME_PREFIX}_C{NUM_CLASSES}_E{vars.TRAIN_NUM_EPOCHS}_{ts}"
+    model = NoaT4MultiCnn()
+    note.addline_(f"Model name: {model_name}")
+    note.addline_(f"Model: {model}")
+    note.flush()
+
+    writer = SummaryWriter(f"runs/{vars.MODEL_NAME_PREFIX}")
+
+    train(note=note)
+    model_name, model_path = save(note=note)
+    
+    note.flush()
+    note.describe()
+
+    on_train_done()

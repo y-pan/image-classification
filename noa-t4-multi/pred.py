@@ -7,13 +7,7 @@ from PIL import Image
 
 from NoaT4MultiCnn import NoaT4MultiCnn
 import vars
-
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
-print(f"classes: {classes}")
-
-assert vars.NUM_CLASSES == len(classes)
+from Note import Note
 
 
 def image_load_resize_grayscale(img_path_src, 
@@ -31,7 +25,7 @@ def image_load_resize_grayscale(img_path_src,
     return white_canvas
 
 
-def image_predict(model, img_path):
+def image_predict(model, img_path, classes):
     img_pil = image_load_resize_grayscale(
         img_path, 
         height = vars.IMAGE_HEIGHT,
@@ -53,34 +47,54 @@ def image_predict(model, img_path):
         assert value.size() == index.size() == torch.Size([1])
         return index[0], classes[index[0]]
 
-def image_folder_predict_expected(model, dir_src, expected_classname_for_all):
+def image_folder_predict_expected(model, 
+                                  dir_src, 
+                                  expected_classname_for_all, 
+                                  classes,
+                                  note):
+    note.addline_(f"predict images: dir={dir_src}, expected={expected_classname_for_all}")
     corrects, incorrects = 0, 0
     images_incorrect = []
     for curpath, _folder, files in os.walk(dir_src):
         for f in files:
             fullpath = os.path.join(curpath, f)
-            pred_index, pred_name = image_predict(model, fullpath)
+            pred_index, pred_name = image_predict(model, fullpath, classes=classes)
             if expected_classname_for_all == pred_name:
                 corrects += 1
             else:
                 incorrects += 1
-                images_incorrect.append({"file": fullpath, "prediction": pred_name, "truth": expected_classname_for_all})
-    print("")
-    print(f"srcDir: {dir_src}")
-    print(f"expectingClassName: {expected_classname_for_all}")
+                images_incorrect.append({"file": f"{fullpath} ", "prediction": pred_name, "truth": expected_classname_for_all})
+    note.newline_()
+    note.addline_(f"srcDir: {dir_src}")
+    note.addline_(f"expectingClassName: {expected_classname_for_all}")
     accuracy = corrects / (corrects+incorrects)
-    print(f"accuracy: {accuracy:.2f} ({corrects} out of {corrects+incorrects})")
-    print(f"incorrect predictions:")
-    pprint.pprint(images_incorrect)
-
+    note.addline_(f"accuracy: {accuracy:.2f} ({corrects} out of {corrects+incorrects})")
+    if images_incorrect:
+        note.addline_(f"incorrect predictions:")
+        note.addlines_(images_incorrect)
+    note.flush()
 
 if __name__ == '__main__':
+
+    note = Note("__note_pred__ignore__.log")
+    note.addtimeline_()
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
+    assert vars.NUM_CLASSES == len(classes)
+
+    note.addline_(f"classes: {classes}")
+    note.addline_(f"device: {device}")
+
     model = NoaT4MultiCnn()
     # modelPath = "models/NoaT4MultiCnn_20230620_003421_epochs500.pt"
     # modelPath = "models/NoaT4MultiCnn_20230621_220422_epochs50.pt"
     # modelPath = "models/NoaT4MultiCnn_C5_E50_20230624_152322.pt"
-    modelPath = "models/NoaT4MultiCnn_C5_E50_20230626_112316.pt"
+    # modelPath = "models/NoaT4MultiCnn_C5_E50_20230626_112316.pt"
+    modelPath = "models/NoaT4MultiCnn_C5_E100_20230705_184128.pt"
     model.load_state_dict(torch.load(modelPath, map_location=device))
+
+    note.addline_(f"modelPath: {modelPath}")
 
     # image_folder_predict_expected(
     #     model,
@@ -96,9 +110,17 @@ if __name__ == '__main__':
     for _dir in noa_dirs:
         image_folder_predict_expected(
             model,
-            _dir, expected_classname_for_all="noa")
+            _dir, 
+            expected_classname_for_all="noa",
+            classes=classes,
+            note=note)
         
     for _dir in t4_dirs:
         image_folder_predict_expected(
             model,
-            _dir, expected_classname_for_all="t4")
+            _dir, 
+            expected_classname_for_all="t4",
+            classes=classes,
+            note=note)
+        
+    note.flush()

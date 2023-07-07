@@ -1,0 +1,96 @@
+########## ########## ##########
+Time: 2023-07-06 23:30:21.854903
+Random seed: 101
+Device: cuda
+Image folder: data/train-300
+Total size: 1231
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 554 | 45.00%
+Size of 't4': 677 | 55.00%
+Train-eval split factor: 0.7
+Train datapoints: 861
+Eval datapoints: 370
+=== Train Split ===
+Size of 'noa': 374 | 43.44%
+Size of 't4': 487 | 56.56%
+=== Eval Split ===
+Size of 'noa': 180 | 48.65%
+Size of 't4': 190 | 51.35%
+Model name: model_C2_E1_20230706_233024
+Model: Model(
+  (conv1): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=9248, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=2, bias=True)
+  )
+)
+Train epochs would be: 1
+Train start: 2023-07-06 23:30:24.341181
+Epoch 0, loss=22.43, accuracy=0.51
+Train end: 2023-07-06 23:30:30.416577. Took seconds: 6.075396
+Training result: epochs=1, loss=22.43, accuracy=0.51
+Saved model: models/model_C2_E1_20230706_233024.pt
+Archived model class: models/model_C2_E1_20230706_233024.py
+Archived vars: models/model_C2_E1_20230706_233024.vars.py
+########## ########## ##########
+Time: 2023-07-06 23:33:59.060441
+Random seed: 101
+Device: cuda
+Image folder: data/train-300
+Total size: 1231
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 554 | 45.00%
+Size of 't4': 677 | 55.00%
+Train-eval split factor: 0.7
+Train datapoints: 861
+Eval datapoints: 370
+=== Train Split ===
+Size of 'noa': 374 | 43.44%
+Size of 't4': 487 | 56.56%
+=== Eval Split ===
+Size of 'noa': 180 | 48.65%
+Size of 't4': 190 | 51.35%
+Model name: model_C2_E50_20230706_233401
+Model: Model(
+  (conv1): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=9248, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=2, bias=True)
+  )
+)
+Train epochs would be: 50
+Train start: 2023-07-06 23:34:01.738684
+Epoch 0, loss=22.43, accuracy=0.51
+Epoch 10, loss=3.69, accuracy=0.83
+Epoch 20, loss=1.94, accuracy=0.96
+Epoch 30, loss=1.10, accuracy=0.98
+Epoch 40, loss=0.85, accuracy=0.99
+Train end: 2023-07-06 23:38:13.576211. Took seconds: 251.837527
+Training result: epochs=50, loss=0.55, accuracy=0.99
+Saved model: models/model_C2_E50_20230706_233401.pt
+Archived model class: models/model_C2_E50_20230706_233401.py
+Archived vars: models/model_C2_E50_20230706_233401.vars.py

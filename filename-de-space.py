@@ -30,5 +30,5 @@ def file_copy_de_space_name(src_dir):
     return count
 
 if __name__ == '__main__':
-    src_dir = "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_paystub"
+    src_dir = "/home/yun/Pictures/Screenshots"
     file_copy_de_space_name(src_dir=src_dir)
