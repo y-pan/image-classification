@@ -302,3 +302,19 @@ srcDir: /home/yun/Documents/code/static/sensitive/t4
 expectingClassName: t4
 accuracy: 1.00 (11 out of 11)
 total_accuracy: 0.29 (11 out of 38)
+__________________________________________________________________________________________________
+Time: 2023-07-08 11:03:50.381514
+classes: ['noa', 't4']
+device: cuda
+model_binary_path: models/model_C2_E150_20230708_104707.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 1.00 (27 out of 27)
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 0.91 (10 out of 11)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-27-12.png ', 'prediction': 'noa', 'truth': 't4'}
+total_accuracy: 0.97 (37 out of 38)
