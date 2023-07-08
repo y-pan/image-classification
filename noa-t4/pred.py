@@ -8,8 +8,9 @@ from PIL import Image
 import vars
 from Logger import Logger
 
-from models.model_C2_E1_20230707_233431 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
-from models.model_C2_E1_20230707_233431_vars import classes, model_binary_path
+from models.model_C2_E100_20230707_233907 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+from models.model_C2_E100_20230707_233907_vars import classes, model_binary_path
+
 
 def image_load_resize_grayscale(img_path_src, 
                                 height = IMAGE_HEIGHT,
