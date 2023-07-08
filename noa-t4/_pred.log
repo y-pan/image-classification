@@ -207,3 +207,56 @@ expectingClassName: t4
 accuracy: 0.91 (10 out of 11)
 incorrect predictions:
 {'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
+__________________________________________________________________________________________________
+Time: 2023-07-08 00:45:22.325628
+classes: ['noa', 't4']
+device: cuda
+model_binary_path: models/model_C2_E150_20230708_002211.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 0.96 (26 out of 27)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-07.png ', 'prediction': 't4', 'truth': 'noa'}
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 0.91 (10 out of 11)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
+__________________________________________________________________________________________________
+Time: 2023-07-08 10:20:50.132472
+classes: ['noa', 't4']
+device: cuda
+model_binary_path: models/model_C2_E150_20230708_002211.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 0.96 (26 out of 27)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-07.png ', 'prediction': 't4', 'truth': 'noa'}
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 0.91 (10 out of 11)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
+total_accuracy: 0.95 (36 out of 38)
+__________________________________________________________________________________________________
+Time: 2023-07-08 10:36:09.792284
+classes: ['noa', 't4']
+device: cuda
+model_binary_path: models/model_C2_E150_20230708_002211.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 0.96 (26 out of 27)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-07.png ', 'prediction': 't4', 'truth': 'noa'}
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 0.91 (10 out of 11)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
+total_accuracy: 0.95 (36 out of 38)

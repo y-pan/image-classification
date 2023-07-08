@@ -82,11 +82,13 @@ def save(logger, classes):
     model_binary_path = f"{vars.MODEL_OUT_DIR}/{model_name}.pt"
     torch.save(model.state_dict(), model_binary_path)
     logger.addline_(f"Saved model: {model_binary_path}")
+    shutil.copy(model_binary_path, f"{vars.MODEL_OUT_DIR}/latest_model.pt")
 
     # save model class code
     model_class_archive = f"{vars.MODEL_OUT_DIR}/{model_name}.py"
     shutil.copy("Model.py", model_class_archive)
     logger.addline_(f"Archived model class: {model_class_archive}")
+    shutil.copy(model_class_archive, f"{vars.MODEL_OUT_DIR}/latest_model.py")
 
     # save vars
     vars_archive = f"{vars.MODEL_OUT_DIR}/{model_name}_vars.py"
@@ -98,6 +100,7 @@ def save(logger, classes):
         f.write(f"model_binary_path = '{model_binary_path}'\n")
         f.write(f"model_class_archive_path = '{model_class_archive}'\n")
         f.write(f"classes = {classes}\n")
+    shutil.copy(vars_archive, f"{vars.MODEL_OUT_DIR}/latest_model_vars.py")
         
     logger.flush()
     return model_name, model_binary_path

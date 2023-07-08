@@ -8,8 +8,11 @@ from PIL import Image
 import vars
 from Logger import Logger
 
-from models.model_C2_E100_20230707_233907 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
-from models.model_C2_E100_20230707_233907_vars import classes, model_binary_path
+# from models.model_C2_E150_20230708_002211 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+# from models.model_C2_E150_20230708_002211_vars import classes, model_binary_path
+
+from models.latest_model import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+from models.latest_model_vars import classes, model_binary_path
 
 
 def image_load_resize_grayscale(img_path_src, 
@@ -74,6 +77,7 @@ def image_folder_predict_expected(model,
         logger.addline_(f"incorrect predictions:")
         logger.addlines_(images_incorrect)
     logger.flush()
+    return corrects, incorrects
 
 def self_name():
     return ".".join(os.path.basename(__file__).split(".")[0:-1])
@@ -120,20 +124,26 @@ if __name__ == '__main__':
         "/home/yun/Documents/code/static/sensitive/t4"
     ]
 
+    total_corrects, total_incorrects = 0, 0
     for _dir in noa_dirs:
-        image_folder_predict_expected(
+        corrects, incorrects = image_folder_predict_expected(
             model,
             _dir, 
             expected_classname_for_all="noa",
             classes=classes,
             logger=logger)
-        
+        total_corrects += corrects
+        total_incorrects += incorrects
+
     for _dir in t4_dirs:
-        image_folder_predict_expected(
+        corrects, incorrects = image_folder_predict_expected(
             model,
             _dir, 
             expected_classname_for_all="t4",
             classes=classes,
             logger=logger)
-        
+        total_corrects += corrects
+        total_incorrects += incorrects
+    total_accuracy = total_corrects/(total_corrects + total_incorrects)
+    logger.addline_(f"total_accuracy: {total_accuracy:.2f} ({total_corrects} out of {total_corrects + total_incorrects})")
     logger.flush()
