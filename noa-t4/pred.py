@@ -8,8 +8,9 @@ from PIL import Image
 import vars
 from Logger import Logger
 
-from models.model_C2_E50_20230706_233401 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
-modelPath = "models/model_C2_E50_20230706_233401.pt"
+from models.model_C2_E100_20230707_233907 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+from models.model_C2_E100_20230707_233907_vars import classes, model_binary_path
+
 
 def image_load_resize_grayscale(img_path_src, 
                                 height = IMAGE_HEIGHT,
@@ -80,11 +81,13 @@ def self_name():
 
 if __name__ == '__main__':
 
-    logger = Logger(f"{self_name()}.log")
+    logger = Logger(f"_{self_name()}.log")
+    logger.hr()
     logger.addtimeline_()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
+    # classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
+
     assert NUM_CLASSES == len(classes)
 
     logger.addline_(f"classes: {classes}")
@@ -92,19 +95,31 @@ if __name__ == '__main__':
 
     model = Model()
 
-    model.load_state_dict(torch.load(modelPath, map_location=device))
+    model.load_state_dict(torch.load(model_binary_path, map_location=device))
 
-    logger.addline_(f"modelPath: {modelPath}")
+    logger.addline_(f"model_binary_path: {model_binary_path}")
 
 
-    noa_dirs = ["/home/yun/Documents/code/static/sensitive/noa", 
-                "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
-                "/home/yun/Documents/code/static/noa/train/noa_yes",
-                ]
+    # Ubu
+    # noa_dirs = ["/home/yun/Documents/code/static/sensitive/noa", 
+    #             "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
+    #             "/home/yun/Documents/code/static/noa/train/noa_yes",
+    #             ]
     
-    t4_dirs = ["/home/yun/Documents/code/static/sensitive/t4",
-               "/home/yun/Documents/code/static/t4/train/t4",
-               "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4"]
+    # t4_dirs = ["/home/yun/Documents/code/static/sensitive/t4",
+    #            "/home/yun/Documents/code/static/t4/train/t4",
+    #            "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4"]
+
+    # mac
+    noa_dirs = [
+        # "/Users/yunkuipan/Documents/x/static/noa/random/noa_yes",
+        "/home/yun/Documents/code/static/sensitive/noa"
+    ]
+    
+    t4_dirs = [
+        # "/Users/yunkuipan/Documents/x/static/t4/train/t4"
+        "/home/yun/Documents/code/static/sensitive/t4"
+    ]
 
     for _dir in noa_dirs:
         image_folder_predict_expected(

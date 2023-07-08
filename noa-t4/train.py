@@ -75,13 +75,13 @@ def train(logger):
     logger.addline_(f"Training result: epochs={vars.TRAIN_NUM_EPOCHS}, loss={prev_loss:.2f}, accuracy={prev_accuracy:.2f}")
     logger.flush()
 
-def save(logger):
+def save(logger, classes):
     os.makedirs(vars.MODEL_OUT_DIR, exist_ok=True)
     
     # save model instance
-    model_path = f"{vars.MODEL_OUT_DIR}/{model_name}.pt"
-    torch.save(model.state_dict(), model_path)
-    logger.addline_(f"Saved model: {model_path}")
+    model_binary_path = f"{vars.MODEL_OUT_DIR}/{model_name}.pt"
+    torch.save(model.state_dict(), model_binary_path)
+    logger.addline_(f"Saved model: {model_binary_path}")
 
     # save model class code
     model_class_archive = f"{vars.MODEL_OUT_DIR}/{model_name}.py"
@@ -89,16 +89,22 @@ def save(logger):
     logger.addline_(f"Archived model class: {model_class_archive}")
 
     # save vars
-    vars_archive = f"{vars.MODEL_OUT_DIR}/{model_name}.vars.py"
+    vars_archive = f"{vars.MODEL_OUT_DIR}/{model_name}_vars.py"
     shutil.copy("vars.py", vars_archive)
     logger.addline_(f"Archived vars: {vars_archive}")
-
+    # additional variables about model trained
+    with open(vars_archive, "+a") as f:
+        f.write("\n#### generated: ###\n")
+        f.write(f"model_binary_path = '{model_binary_path}'\n")
+        f.write(f"model_class_archive_path = '{model_class_archive}'\n")
+        f.write(f"classes = {classes}\n")
+        
     logger.flush()
-    return model_name, model_path
+    return model_name, model_binary_path
 
 def on_train_done():
-    if not os.path.exists("on_train_done.sh.off.__ignore__"):
-        script = './on_train_done.sh'
+    if os.path.exists("_signal.auto-commit.on"):
+        script = './auto-commit.sh'
         print(f"Running {script}")
         os.system(script)
     print("Done!")
@@ -108,11 +114,11 @@ def self_name():
 
 if __name__ == '__main__':
     # globals
-    logger = Logger(f"{self_name()}.log")
     torch.manual_seed(vars.RANDOM_SEED)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    logger.addline("########## ########## ##########")
+    logger = Logger(f"_{self_name()}.log")
+    logger.hr()
     logger.addtimeline_()
     logger.addline_(f"Random seed: {vars.RANDOM_SEED}")
     logger.addline_(f"Device: {device}")
@@ -155,7 +161,7 @@ if __name__ == '__main__':
     writer = SummaryWriter(f"runs/{vars.MODEL_NAME_PREFIX}")
 
     train(logger=logger)
-    model_name, model_path = save(logger=logger)
+    model_name, model_path = save(logger=logger, classes=dataset.classes)
     
     logger.flush()
     logger.describe()

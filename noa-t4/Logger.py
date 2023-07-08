@@ -3,7 +3,7 @@ from datetime import datetime
 from pprint import pprint
 
 class Logger:
-    def __init__(self, logger_path="logger.log"):
+    def __init__(self, logger_path="_logger.log"):
         self.logger_path = logger_path
         self.buffer = deque()
     
@@ -25,6 +25,9 @@ class Logger:
     def newline(self):
         self.buffer.append("\n")
 
+    def hr(self):
+        self.buffer.append("__________________________________________________________________________________________________\n")
+        
     def add_(self, text):
         print(text)
         self.add(text)
