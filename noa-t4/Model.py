@@ -13,14 +13,16 @@ class Model(nn.Module):
         self.conv1 = nn.Sequential(
             nn.Conv2d(in_channels=1, out_channels=16, kernel_size=(5,5)),
             nn.ReLU(),
-            nn.MaxPool2d((4,4))
+            nn.MaxPool2d((4,4)),
+            nn.Dropout2d(p=0.2)
         )
         # torch.Size([8, 16, 74, 74])
         
         self.conv2 = nn.Sequential(
             nn.Conv2d(in_channels=16, out_channels=32, kernel_size=(5,5)),
             nn.ReLU(),
-            nn.MaxPool2d((4,4))
+            nn.MaxPool2d((4,4)),
+            nn.Dropout2d(p=0.2)
         )
         # torch.Size([8, 32, 17, 17])
         

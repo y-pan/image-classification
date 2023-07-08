@@ -97,7 +97,7 @@ def save(logger):
     return model_name, model_path
 
 def on_train_done():
-    if os.path.exists("signal.auto-commit.on"):
+    if os.path.exists("_signal.auto-commit.on"):
         script = './auto-commit.sh'
         print(f"Running {script}")
         os.system(script)
