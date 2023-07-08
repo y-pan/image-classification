@@ -8,8 +8,8 @@ from PIL import Image
 import vars
 from Logger import Logger
 
-from models.model_C2_E50_20230706_233401 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
-modelPath = "models/model_C2_E50_20230706_233401.pt"
+from models.model_C2_E100_20230707_205742 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+modelPath = "models/model_C2_E100_20230707_205742.pt"
 
 def image_load_resize_grayscale(img_path_src, 
                                 height = IMAGE_HEIGHT,
@@ -80,7 +80,7 @@ def self_name():
 
 if __name__ == '__main__':
 
-    logger = Logger(f"{self_name()}.log")
+    logger = Logger(f"_{self_name()}.log")
     logger.hr()
     logger.addtimeline_()
 
@@ -112,11 +112,13 @@ if __name__ == '__main__':
 
     # mac
     noa_dirs = [
-        "/Users/yunkuipan/Documents/x/static/noa/random/noa_yes"
+        # "/Users/yunkuipan/Documents/x/static/noa/random/noa_yes",
+        "/home/yun/Documents/code/static/sensitive/noa"
     ]
     
     t4_dirs = [
-        "/Users/yunkuipan/Documents/x/static/t4/train/t4"
+        # "/Users/yunkuipan/Documents/x/static/t4/train/t4"
+        "/home/yun/Documents/code/static/sensitive/t4"
     ]
 
     for _dir in noa_dirs:

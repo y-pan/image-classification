@@ -126,7 +126,7 @@ def self_name():
 
 def __test_logger():
     self_file_name = self_name()
-    logger = Logger(f"{self_file_name}.log")
+    logger = Logger(f"_{self_file_name}.log")
     full_ds = load_image_folder(root=vars.IMAGES_TRAIN_DIR, logger=logger)
     train_ds, eval_ds = split_dataset(full_ds, train_eval_split=0.7, logger=logger)
     logger.flush()

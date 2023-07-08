@@ -109,3 +109,23 @@ predict images: dir=/Users/yunkuipan/Documents/x/static/t4/train/t4, expected=t4
 srcDir: /Users/yunkuipan/Documents/x/static/t4/train/t4
 expectingClassName: t4
 accuracy: 1.00 (195 out of 195)
+__________________________________________________________________________________________________
+Time: 2023-07-07 22:26:24.916717
+classes: ['noa', 't4']
+device: cuda
+modelPath: models/model_C2_E100_20230707_205742.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 1.00 (27 out of 27)
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 0.64 (7 out of 11)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-27-37.png ', 'prediction': 'noa', 'truth': 't4'}
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-28-06.png ', 'prediction': 'noa', 'truth': 't4'}
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
+{'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-26_09-51-39.png ', 'prediction': 'noa', 'truth': 't4'}

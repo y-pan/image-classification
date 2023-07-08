@@ -3,7 +3,7 @@ from datetime import datetime
 from pprint import pprint
 
 class Logger:
-    def __init__(self, logger_path="logger.log"):
+    def __init__(self, logger_path="_logger.log"):
         self.logger_path = logger_path
         self.buffer = deque()
     

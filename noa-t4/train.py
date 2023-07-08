@@ -111,7 +111,7 @@ if __name__ == '__main__':
     torch.manual_seed(vars.RANDOM_SEED)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    logger = Logger(f"{self_name()}.log")
+    logger = Logger(f"_{self_name()}.log")
     logger.hr()
     logger.addtimeline_()
     logger.addline_(f"Random seed: {vars.RANDOM_SEED}")
