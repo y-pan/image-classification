@@ -66,7 +66,6 @@ def image_folder_predict_expected(model,
             else:
                 incorrects += 1
                 images_incorrect.append({"file": f"{fullpath} ", "prediction": pred_name, "truth": expected_classname_for_all})
-    logger.newline_()
     logger.addline_(f"srcDir: {dir_src}")
     logger.addline_(f"expectingClassName: {expected_classname_for_all}")
     accuracy = corrects / (corrects+incorrects)
