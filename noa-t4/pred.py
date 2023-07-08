@@ -8,8 +8,8 @@ from PIL import Image
 import vars
 from Logger import Logger
 
-from models.model_C2_E100_20230707_205742 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
-modelPath = "models/model_C2_E100_20230707_205742.pt"
+from models.model_C2_E1_20230707_233431 import Model, NUM_CLASSES, IMAGE_CHANNELS, IMAGE_HEIGHT, IMAGE_WIDTH
+from models.model_C2_E1_20230707_233431_vars import classes, model_binary_path
 
 def image_load_resize_grayscale(img_path_src, 
                                 height = IMAGE_HEIGHT,
@@ -86,7 +86,6 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
-    classes = ['noa', 't4']
 
     assert NUM_CLASSES == len(classes)
 
@@ -95,9 +94,9 @@ if __name__ == '__main__':
 
     model = Model()
 
-    model.load_state_dict(torch.load(modelPath, map_location=device))
+    model.load_state_dict(torch.load(model_binary_path, map_location=device))
 
-    logger.addline_(f"modelPath: {modelPath}")
+    logger.addline_(f"model_binary_path: {model_binary_path}")
 
 
     # Ubu

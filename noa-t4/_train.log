@@ -261,3 +261,60 @@ Training result: epochs=100, loss=0.05, accuracy=1.00
 Saved model: models/model_C2_E100_20230707_223642.pt
 Archived model class: models/model_C2_E100_20230707_223642.py
 Archived vars: models/model_C2_E100_20230707_223642.vars.py
+__________________________________________________________________________________________________
+Time: 2023-07-07 23:39:04.375431
+Random seed: 101
+Device: cuda
+Image folder: data/train-300
+Total size: 1231
+Classes: ['noa', 't4']
+Number of classes: 2
+Size of 'noa': 554 | 45.00%
+Size of 't4': 677 | 55.00%
+Train-eval split factor: 0.7
+Train datapoints: 861
+Eval datapoints: 370
+=== Train Split ===
+Size of 'noa': 374 | 43.44%
+Size of 't4': 487 | 56.56%
+=== Eval Split ===
+Size of 'noa': 180 | 48.65%
+Size of 't4': 190 | 51.35%
+Model name: model_C2_E100_20230707_233907
+Model: Model(
+  (conv1): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+    (3): Dropout2d(p=0.2, inplace=False)
+  )
+  (conv2): Sequential(
+    (0): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(4, 4), stride=(4, 4), padding=0, dilation=1, ceil_mode=False)
+    (3): Dropout2d(p=0.2, inplace=False)
+  )
+  (fc): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=9248, out_features=1156, bias=True)
+    (2): ReLU()
+    (3): Linear(in_features=1156, out_features=2, bias=True)
+  )
+)
+Train epochs would be: 100
+Train start: 2023-07-07 23:39:07.370632
+Epoch 0, loss=22.82, accuracy=0.51
+Epoch 10, loss=4.03, accuracy=0.92
+Epoch 20, loss=2.41, accuracy=0.96
+Epoch 30, loss=1.42, accuracy=0.98
+Epoch 40, loss=0.85, accuracy=0.98
+Epoch 50, loss=1.07, accuracy=0.98
+Epoch 60, loss=0.51, accuracy=0.93
+Epoch 70, loss=0.38, accuracy=0.99
+Epoch 80, loss=0.12, accuracy=1.00
+Epoch 90, loss=0.21, accuracy=1.00
+Train end: 2023-07-07 23:50:52.749033. Took seconds: 705.378401
+Training result: epochs=100, loss=0.16, accuracy=1.00
+Saved model: models/model_C2_E100_20230707_233907.pt
+Archived model class: models/model_C2_E100_20230707_233907.py
+Archived vars: models/model_C2_E100_20230707_233907_vars.py
