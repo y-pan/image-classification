@@ -79,3 +79,33 @@ incorrect predictions:
 {'file': '/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4/Image_16.jpg ', 'prediction': 'noa', 'truth': 't4'}
 {'file': '/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4/Image_6.png ', 'prediction': 'noa', 'truth': 't4'}
 {'file': '/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4/Image_20.png ', 'prediction': 'noa', 'truth': 't4'}
+__________________________________________________________________________________________________
+Time: 2023-07-07 20:33:47.899464
+classes: ['noa', 't4']
+device: cpu
+modelPath: models/model_C2_E50_20230706_233401.pt
+predict images: dir=/Users/yunkuipan/Documents/x/static/noa/random/noa_yes, expected=noa
+
+srcDir: /Users/yunkuipan/Documents/x/static/noa/random/noa_yes
+expectingClassName: noa
+accuracy: 1.00 (4 out of 4)
+predict images: dir=/Users/yunkuipan/Documents/x/static/t4/train/t4, expected=t4
+
+srcDir: /Users/yunkuipan/Documents/x/static/t4/train/t4
+expectingClassName: t4
+accuracy: 1.00 (195 out of 195)
+__________________________________________________________________________________________________
+Time: 2023-07-07 20:34:22.331407
+classes: ['noa', 't4']
+device: cpu
+modelPath: models/model_C2_E50_20230706_233401.pt
+predict images: dir=/Users/yunkuipan/Documents/x/static/noa/random/noa_yes, expected=noa
+
+srcDir: /Users/yunkuipan/Documents/x/static/noa/random/noa_yes
+expectingClassName: noa
+accuracy: 1.00 (4 out of 4)
+predict images: dir=/Users/yunkuipan/Documents/x/static/t4/train/t4, expected=t4
+
+srcDir: /Users/yunkuipan/Documents/x/static/t4/train/t4
+expectingClassName: t4
+accuracy: 1.00 (195 out of 195)

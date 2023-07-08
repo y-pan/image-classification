@@ -97,8 +97,8 @@ def save(logger):
     return model_name, model_path
 
 def on_train_done():
-    if not os.path.exists("on_train_done.sh.off.__ignore__"):
-        script = './on_train_done.sh'
+    if os.path.exists("signal.auto-commit.on"):
+        script = './auto-commit.sh'
         print(f"Running {script}")
         os.system(script)
     print("Done!")
@@ -108,11 +108,11 @@ def self_name():
 
 if __name__ == '__main__':
     # globals
-    logger = Logger(f"{self_name()}.log")
     torch.manual_seed(vars.RANDOM_SEED)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    logger.addline("########## ########## ##########")
+    logger = Logger(f"{self_name()}.log")
+    logger.hr()
     logger.addtimeline_()
     logger.addline_(f"Random seed: {vars.RANDOM_SEED}")
     logger.addline_(f"Device: {device}")

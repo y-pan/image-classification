@@ -81,10 +81,13 @@ def self_name():
 if __name__ == '__main__':
 
     logger = Logger(f"{self_name()}.log")
+    logger.hr()
     logger.addtimeline_()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
+    # classes = torchvision.datasets.ImageFolder(root=vars.IMAGES_TRAIN_DIR).classes
+    classes = ['noa', 't4']
+
     assert NUM_CLASSES == len(classes)
 
     logger.addline_(f"classes: {classes}")
@@ -97,14 +100,24 @@ if __name__ == '__main__':
     logger.addline_(f"modelPath: {modelPath}")
 
 
-    noa_dirs = ["/home/yun/Documents/code/static/sensitive/noa", 
-                "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
-                "/home/yun/Documents/code/static/noa/train/noa_yes",
-                ]
+    # Ubu
+    # noa_dirs = ["/home/yun/Documents/code/static/sensitive/noa", 
+    #             "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_noa",
+    #             "/home/yun/Documents/code/static/noa/train/noa_yes",
+    #             ]
     
-    t4_dirs = ["/home/yun/Documents/code/static/sensitive/t4",
-               "/home/yun/Documents/code/static/t4/train/t4",
-               "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4"]
+    # t4_dirs = ["/home/yun/Documents/code/static/sensitive/t4",
+    #            "/home/yun/Documents/code/static/t4/train/t4",
+    #            "/home/yun/Documents/code/static/noa-t4-multi/raw/raw_t4"]
+
+    # mac
+    noa_dirs = [
+        "/Users/yunkuipan/Documents/x/static/noa/random/noa_yes"
+    ]
+    
+    t4_dirs = [
+        "/Users/yunkuipan/Documents/x/static/t4/train/t4"
+    ]
 
     for _dir in noa_dirs:
         image_folder_predict_expected(

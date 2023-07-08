@@ -25,6 +25,9 @@ class Logger:
     def newline(self):
         self.buffer.append("\n")
 
+    def hr(self):
+        self.buffer.append("__________________________________________________________________________________________________\n")
+        
     def add_(self, text):
         print(text)
         self.add(text)
