@@ -3,7 +3,7 @@ IMAGES_TRAIN_DIR = 'data/train-300'
 
 RESIZE_FILL_COLOR = 255 # used in inference, and must be consistent with training image's preprocessing. will cause bad inferencing otherwise.
 
-TRAIN_NUM_EPOCHS = 150
+TRAIN_NUM_EPOCHS = 1
 TRAIN_BATCH_SIZE = 50
 TRAIN_LEARNING_RATE= 0.001
 TRAIN_EVAL_SPLIT = 0.7
@@ -13,6 +13,6 @@ MODEL_NAME_PREFIX = "model"
 MODEL_OUT_DIR = 'models'
 
 #### generated: ###
-model_binary_path = 'models/model_C2_E150_20230708_002211.pt'
-model_class_archive_path = 'models/model_C2_E150_20230708_002211.py'
+model_binary_path = 'models/model_C2_E1_20230708_104159.pt'
+model_class_archive_path = 'models/model_C2_E1_20230708_104159.py'
 classes = ['noa', 't4']
