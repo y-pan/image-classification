@@ -13,6 +13,6 @@ MODEL_NAME_PREFIX = "model"
 MODEL_OUT_DIR = 'models'
 
 #### generated: ###
-model_binary_path = 'models/model_C2_E1_20230708_104159.pt'
-model_class_archive_path = 'models/model_C2_E1_20230708_104159.py'
+model_binary_path = 'models/model_C2_E1_20230708_104302.pt'
+model_class_archive_path = 'models/model_C2_E1_20230708_104302.py'
 classes = ['noa', 't4']

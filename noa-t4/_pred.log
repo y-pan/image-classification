@@ -260,3 +260,45 @@ accuracy: 0.91 (10 out of 11)
 incorrect predictions:
 {'file': '/home/yun/Documents/code/static/sensitive/t4/Screenshot_from_2023-06-27_18-26-33.png ', 'prediction': 'noa', 'truth': 't4'}
 total_accuracy: 0.95 (36 out of 38)
+__________________________________________________________________________________________________
+Time: 2023-07-08 10:43:08.639491
+classes: ['noa', 't4']
+device: cuda
+model_binary_path: models/model_C2_E1_20230708_104302.pt
+predict images: dir=/home/yun/Documents/code/static/sensitive/noa, expected=noa
+srcDir: /home/yun/Documents/code/static/sensitive/noa
+expectingClassName: noa
+accuracy: 0.00 (0 out of 27)
+incorrect predictions:
+{'file': '/home/yun/Documents/code/static/sensitive/noa/IMG_20210507_194042.jpg ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-34-14.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-33-15.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-43.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-26_09-51-01.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-32-37.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-35-31.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-37-00.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-37-27.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-37-10.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-35-43.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-32-48.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-35-22.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-35-55.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-32-55.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-35-39.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-26_09-50-45.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-33-09.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-37-18.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-34-36.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-32-24.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-00.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/IMG_20210507_194037.jpg ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-33-54.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-34-45.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-27_18-36-07.png ', 'prediction': 't4', 'truth': 'noa'}
+{'file': '/home/yun/Documents/code/static/sensitive/noa/Screenshot_from_2023-06-26_09-51-13.png ', 'prediction': 't4', 'truth': 'noa'}
+predict images: dir=/home/yun/Documents/code/static/sensitive/t4, expected=t4
+srcDir: /home/yun/Documents/code/static/sensitive/t4
+expectingClassName: t4
+accuracy: 1.00 (11 out of 11)
+total_accuracy: 0.29 (11 out of 38)

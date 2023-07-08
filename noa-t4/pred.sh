@@ -1,1 +1,1 @@
-python3 pred.sh
+python3 pred.py
