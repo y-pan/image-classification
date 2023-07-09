@@ -115,13 +115,17 @@ if __name__ == '__main__':
 
     # mac
     noa_dirs = [
-        # "/Users/yunkuipan/Documents/x/static/noa/random/noa_yes",
-        "/home/yun/Documents/code/static/sensitive/noa"
+        ### mac
+        "/Users/yunkuipan/Documents/code/static/noa/test-random/noa_yes",
+        ### ubu
+        # "/home/yun/Documents/code/static/sensitive/noa"
     ]
     
     t4_dirs = [
-        # "/Users/yunkuipan/Documents/x/static/t4/train/t4"
-        "/home/yun/Documents/code/static/sensitive/t4"
+        ### mac
+        "/Users/yunkuipan/Documents/code/static/t4/test-random",
+        ### ubu
+        # "/home/yun/Documents/code/static/sensitive/t4"
     ]
 
     total_corrects, total_incorrects = 0, 0
